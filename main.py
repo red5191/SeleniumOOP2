@@ -18,17 +18,21 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 
-options = webdriver.ChromeOptions()
-options.add_experimental_option("detach",True)
-# options.add_argument('--headless')
+
 base_url = 'https://www.saucedemo.com/'
 
 # создаем класс который:
 class AutoTest:
 
-    def driver_start(self, link):
-        # создает экземпляр драйвера
+    def __init__(self):
+        # создает и настраивает экземпляр драйвера
+        options = webdriver.ChromeOptions()
+        options.add_experimental_option("detach",True)
+        # options.add_argument('--headless')
         self.driver = webdriver.Chrome(options=options, service=ChromeService(ChromeDriverManager().install()))
+
+    def test_start(self, link):
+        # запускает драйвер по указанной ссылке
         self.driver.get(link)
         self.driver.maximize_window()
 
@@ -70,5 +74,5 @@ class AutoTest:
 
 # вызываем экземпляр класса и методы
 test = AutoTest()
-test.driver_start(base_url)
+test.test_start(base_url)
 test.test_end()
